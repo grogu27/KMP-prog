@@ -3,6 +3,10 @@
 int *prefix_function(char *str) 
 {
     int *pref = malloc(sizeof(int) * strlen(str));
+
+    if (!pref)
+        return NULL;
+
     pref[0] = 0;
     int j = 0;
     for (int i = 1; i < strlen(str); i++)
@@ -46,3 +50,14 @@ void KMP(char *text, char *pattern)
         }
     }
 }
+
+void print_prefix_function(char *pattern)
+{
+    int *mas = prefix_function(pattern);
+    printf("Префикс функция: ");
+    for (int i = 0; i < strlen(pattern); i++)
+        printf("%d ", mas[i]);
+    printf("\n");
+    free(mas);
+}
+   

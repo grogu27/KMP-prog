@@ -1,14 +1,18 @@
 #include "funk.h"
 
-int main()
+int main(int argc, char *argv[])
 {
     char str[] = "abcdqqqabcd";
-    char pattern[] = "abcd"; 
-    // int *mas = prefix_function(pattern);
-    // for (int i = 0; i < strlen(pattern); i++)
-    //     printf("%d ", mas[i]);
-    // printf("\n");
+    char pattern[] = ""; 
+
+    if (strlen(str) == 0 || strlen(pattern) == 0)
+    {
+        printf("Длина строки или длина подстроки равны нулю\n");
+        return 0;
+    }
     printf("\nСтрока: %s\n", str);
+    printf("\n\nПодстрока: %s\n", pattern);
+    print_prefix_function(pattern);
     KMP(str, pattern);
     return 0;
 }
