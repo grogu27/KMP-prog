@@ -1,0 +1,5 @@
+*.out
+geometry
+*.d
+*.o
+*.a
