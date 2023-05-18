@@ -69,7 +69,7 @@ int print_text(const char *input_text)
         printf("Файл не открылся\n");
         return -1;
     }
-    printf("%s:\n", input_text);
+    //printf("%s:\n", input_text);
     char str[MaxLength];
     while (!feof(text))
     {
@@ -106,4 +106,9 @@ double wtime() {
   struct timeval t;
   gettimeofday(&t, NULL);
   return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
+}
+
+int KMP_search_in_direct()
+{
+    
 }
