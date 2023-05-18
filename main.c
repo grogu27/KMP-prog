@@ -2,33 +2,55 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc != 3)
+    if (argc == 3)
     {
+        const char *pattern = argv[1];
+        const char *input_dir = argv[2];
+        printf("\nНачальная директория: %s\n", argv[2]);
+        printf("\nПодстрока: %s\n", argv[1]);
+        print_prefix_function(pattern);
+        print_dirent(input_dir);
+        double start = wtime();
+        KMP_search_in_dirent_without_recursion(input_dir, pattern);
+        double time = wtime() - start;
+        printf("\nВремя выполнения алгоритма: %lf\n", time);
+    }
+    else if (argc == 4)
+    {
+        const char *key = argv[1];
+        const char *pattern = argv[2];
+        const char *input_dir = argv[3];
+        if (strcmp(key, "-r") == 0)
+        {
+            printf("\nНачальная директория: %s\n", argv[3]);
+            printf("\nПодстрока: %s\n", argv[2]);
+            print_prefix_function(pattern);
+            print_dirent(input_dir);
+            double start = wtime();
+            KMP_search_in_child_dirent(input_dir, pattern);
+            double time = wtime() - start;
+            printf("\nВремя выполнения алгоритма: %lf\n", time);
+        } 
+        
+        if (strcmp(key, "-all") == 0)
+        {
+            printf("\nНачальная директория: %s\n", argv[3]);
+            printf("\nПодстрока: %s\n", argv[2]);
+            print_prefix_function(pattern);
+            print_dirent(input_dir);
+            double start = wtime();
+            KMP_search_in_dirent(input_dir, pattern);
+            double time = wtime() - start;
+            printf("\nВремя выполнения алгоритма: %lf\n", time);
+        } 
+    }
+    else{
         printf("argc < 3 or argc > 3\n");
         return -1;
+    
     }
-    
-    const char *pattern = argv[1];
-    const char *input_file = argv[2];
-    
-    // if (pattern(str) == 0 || strlen(pattern) == 0)
-    // {
-    //     printf("Длина строки или длина подстроки равны нулю\n");
-    //     return 0;
-    // }
-    printf("\nПодстрока: %s\n", argv[1]);
-    print_prefix_function(pattern);
-    //print_text(input_file);
-    printf("\n%s:\n", input_file);
-    double start = wtime();
-    KMP_search_in_file(input_file, pattern);
-    double time = wtime() - start;
-    printf("\nВремя выполнения алгоритма: %lf\n", time);
-
     return 0;
 }
-
-
 
 
 

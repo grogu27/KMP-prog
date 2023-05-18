@@ -7,6 +7,12 @@ int *prefix_function(const char *str)
     if (!pref)
         return NULL;
 
+    if (strlen(str) == 0)
+    {
+        printf("Длина подстроки равна нулю\n");
+        free(pref);
+        return 0;
+    }
     pref[0] = 0;
     int j = 0;
     for (int i = 1; i < strlen(str); i++)
@@ -57,7 +63,7 @@ void print_prefix_function(const char *pattern)
     printf("Префикс функция: ");
     for (int i = 0; i < strlen(pattern); i++)
         printf("%d ", mas[i]);
-    printf("\n");
+    printf("\n\n");
     free(mas);
 }
    
@@ -89,12 +95,11 @@ int KMP_search_in_file(const char *input_text, const char *pattern)
         printf("Файл не открылся\n");
         return -1;
     }
-
+    printf("\nПуть: %s\n", input_text);
     int line_number = 1;     
     char str[MaxLength];
     while (fgets(str, MaxLength + 1, text) != NULL)
     {
-        //fgets(str, MaxLength + 1, text);
         KMP(str, pattern, line_number);
         line_number++;
     }
@@ -108,7 +113,103 @@ double wtime() {
   return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
 }
 
-int KMP_search_in_direct()
+int print_dirent(const char *input_dir)
 {
-    
+    DIR* dir = opendir(input_dir);
+    struct dirent *ent;
+
+    if (!dir)
+    {
+        printf("Директория не открылась\n");
+        return -1;
+    }
+    while ((ent = readdir(dir)) != NULL)
+    {
+        char path[1000];
+        snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0)
+        {
+            if (ent->d_type == DT_DIR)
+            {
+                print_dirent(path);
+            }else{
+                printf("%s/%s\n", input_dir, ent->d_name);
+        }
+        }
+    }
+    closedir(dir);
+    return 0;
+}
+
+int KMP_search_in_dirent(const char *input_dir, const char *pattern)
+{
+    DIR* dir = opendir(input_dir);
+    struct dirent *ent;
+
+    if (!dir)
+    {
+        printf("Директория не открылась\n");
+        return -1;
+    }
+    while ((ent = readdir(dir)) != NULL)
+    {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+            char path[1000];
+            snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
+            if (ent->d_type == DT_DIR)
+            {
+                KMP_search_in_dirent(path, pattern);
+            }else{
+                KMP_search_in_file(path, pattern);
+            }
+        }
+    }
+    closedir(dir);
+    return 0;
+}
+int KMP_search_in_dirent_without_recursion(const char *input_dir, const char *pattern)
+{
+    DIR* dir = opendir(input_dir);
+    struct dirent *ent;
+
+    if (!dir)
+    {
+        printf("Директория не открылась\n");
+        return -1;
+    }
+    while ((ent = readdir(dir)) != NULL)
+    {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+            char path[1000];
+            snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
+                KMP_search_in_file(path, pattern);
+            
+        }
+    }
+}
+
+int KMP_search_in_child_dirent(const char *input_dir, const char *pattern)
+{
+    DIR* dir = opendir(input_dir);
+    struct dirent *ent;
+
+    if (!dir)
+    {
+        printf("Директория не открылась\n");
+        return -1;
+    }
+    while ((ent = readdir(dir)) != NULL)
+    {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+            char path[1000];
+            snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
+            if (ent->d_type == DT_DIR)
+            {
+                KMP_search_in_dirent(path, pattern);
+                KMP_search_in_file(path, pattern);
+            }
+                
+            
+        }
+    }
 }

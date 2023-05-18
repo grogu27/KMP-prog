@@ -1,5 +1,5 @@
-KMP : main.o funk.o
-	gcc main.o funk.o -o KMP
+kmpmatcher : main.o funk.o
+	gcc main.o funk.o -o kmpmatcher
 
 main.o : main.c
 	gcc -c main.c -o main.o
@@ -9,8 +9,9 @@ funk.o : funk.c
 
 
 run:
-	./KMP
+	./kmpmatcher
 
 clean:
 	rm *.o
+	rm kmpmatcher
 
