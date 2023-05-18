@@ -1,6 +1,6 @@
 #include "funk.h"
 
-int *prefix_function(char *str) 
+int *prefix_function(const char *str) 
 {
     int *pref = malloc(sizeof(int) * strlen(str));
 
@@ -20,7 +20,7 @@ int *prefix_function(char *str)
     return pref;
 }
 
-void KMP(char *text, char *pattern)
+void KMP(const char *text, const char *pattern, int line_number)
 {
     int len_text = strlen(text);
     int len_pattern = strlen(pattern);
@@ -37,7 +37,7 @@ void KMP(char *text, char *pattern)
 
         if (j == len_pattern) 
         {
-            printf("Найдено вхождение на позиции: %d\n", i - j);
+            printf("Строка: %2d| Столбец: %2d| Индекс начала подстроки: %d\n", line_number, i - j + 1, i - j);
             j = prefix[j-1];
         }
          
@@ -51,7 +51,7 @@ void KMP(char *text, char *pattern)
     }
 }
 
-void print_prefix_function(char *pattern)
+void print_prefix_function(const char *pattern)
 {
     int *mas = prefix_function(pattern);
     printf("Префикс функция: ");
@@ -61,3 +61,49 @@ void print_prefix_function(char *pattern)
     free(mas);
 }
    
+int print_text(const char *input_text)
+{
+    FILE *text = fopen(input_text, "r");
+    if (!text)
+    {
+        printf("Файл не открылся\n");
+        return -1;
+    }
+    printf("%s:\n", input_text);
+    char str[MaxLength];
+    while (!feof(text))
+    {
+        fgets(str, MaxLength + 1, text);
+        printf("%s", str);
+    }
+    printf("\n");
+    return 0;
+}
+
+int KMP_search_in_file(const char *input_text, const char *pattern)
+{
+    FILE *text = fopen(input_text, "r");
+
+    if (!text)
+    {
+        printf("Файл не открылся\n");
+        return -1;
+    }
+
+    int line_number = 1;     
+    char str[MaxLength];
+    while (fgets(str, MaxLength + 1, text) != NULL)
+    {
+        //fgets(str, MaxLength + 1, text);
+        KMP(str, pattern, line_number);
+        line_number++;
+    }
+    
+    return 0;
+}
+
+double wtime() {
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
+}

@@ -2,18 +2,29 @@
 
 int main(int argc, char *argv[])
 {
-    char str[] = "abcdqqqabcd";
-    char pattern[] = ""; 
-
-    if (strlen(str) == 0 || strlen(pattern) == 0)
+    if (argc != 3)
     {
-        printf("Длина строки или длина подстроки равны нулю\n");
-        return 0;
+        printf("argc < 3 or argc > 3\n");
+        return -1;
     }
-    printf("\nСтрока: %s\n", str);
-    printf("\n\nПодстрока: %s\n", pattern);
+    
+    const char *pattern = argv[1];
+    const char *input_file = argv[2];
+    
+    // if (pattern(str) == 0 || strlen(pattern) == 0)
+    // {
+    //     printf("Длина строки или длина подстроки равны нулю\n");
+    //     return 0;
+    // }
+    printf("\nПодстрока: %s\n", argv[1]);
     print_prefix_function(pattern);
-    KMP(str, pattern);
+    print_text(input_file);
+
+    double start = wtime();
+    KMP_search_in_file(input_file, pattern);
+    double time = wtime() - start;
+    printf("\nВремя выполнения алгоритма: %lf\n", time);
+
     return 0;
 }
 
