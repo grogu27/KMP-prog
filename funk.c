@@ -127,7 +127,7 @@ int print_dirent(const char *input_dir)
     {
         char path[1000];
         snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
-        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0)
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) // Игнорируем '.' и '..'
         {
             if (ent->d_type == DT_DIR)
             {
@@ -153,7 +153,7 @@ int KMP_search_in_dirent(const char *input_dir, const char *pattern)
     }
     while ((ent = readdir(dir)) != NULL)
     {
-        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) { // Игнорируем '.' и '..'
             char path[1000];
             snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
             if (ent->d_type == DT_DIR)
@@ -179,7 +179,7 @@ int KMP_search_in_dirent_without_recursion(const char *input_dir, const char *pa
     }
     while ((ent = readdir(dir)) != NULL)
     {
-        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) { // Игнорируем '.' и '..'
             char path[1000];
             snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
                 KMP_search_in_file(path, pattern);
@@ -200,7 +200,7 @@ int KMP_search_in_child_dirent(const char *input_dir, const char *pattern)
     }
     while ((ent = readdir(dir)) != NULL)
     {
-        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) { // Игнорируем '.' и '..'
             char path[1000];
             snprintf(path, sizeof(path), "%s/%s", input_dir, ent->d_name);
             if (ent->d_type == DT_DIR)
@@ -208,8 +208,6 @@ int KMP_search_in_child_dirent(const char *input_dir, const char *pattern)
                 KMP_search_in_dirent(path, pattern);
                 KMP_search_in_file(path, pattern);
             }
-                
-            
         }
     }
 }
