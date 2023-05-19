@@ -186,6 +186,8 @@ int KMP_search_in_dirent_without_recursion(const char *input_dir, const char *pa
             
         }
     }
+    closedir(dir);
+    return 0;
 }
 
 int KMP_search_in_child_dirent(const char *input_dir, const char *pattern)
@@ -210,4 +212,6 @@ int KMP_search_in_child_dirent(const char *input_dir, const char *pattern)
             }
         }
     }
+    closedir(dir);
+    return 0;
 }
